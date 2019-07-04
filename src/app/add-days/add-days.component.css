@@ -1,0 +1,13 @@
+.add-days .narrow {
+    max-width: 60px;
+    width: 100%;
+    margin-right: 8px;
+}
+
+.add-days .mat-radio-group {
+    padding-bottom: 8px;
+}
+
+.add-days .mat-radio-button {
+    margin: 3px 12px;
+}

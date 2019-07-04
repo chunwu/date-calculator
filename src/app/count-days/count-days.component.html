@@ -1,0 +1,33 @@
+<div>
+    <h3>Days Between Two Dates</h3>
+    <p>Find how many days, months, and years there are between two dates.</p>
+    <form [formGroup]="durationForm">
+      <div class="flex-column">
+        <mat-form-field>
+          <input matInput [matDatepicker]="startDatepicker" formControlName="start" placeholder="Start Date">
+          <mat-datepicker-toggle matSuffix [for]="startDatepicker"></mat-datepicker-toggle>
+          <mat-datepicker #startDatepicker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput [matDatepicker]="endDatepicker" formControlName="end" placeholder="End Date">
+          <mat-datepicker-toggle matSuffix [for]="endDatepicker"></mat-datepicker-toggle>
+          <mat-datepicker #endDatepicker></mat-datepicker>
+        </mat-form-field>
+      
+        <mat-checkbox formControlName="includeStart" class="full-width">Include Start Date</mat-checkbox>
+        <mat-checkbox formControlName="includeEnd" class="full-width">Include End Date</mat-checkbox>
+      </div>
+    </form>
+
+    <div *ngIf="resultDays">
+      <h3 class="result">Result: {{resultDays}}</h3>
+
+      <span><b>Alternative time units:</b></span>
+      <ul>
+        <li>{{resultWeekdays}}</li>
+        <li>{{resultWeeksAndDays}}</li>
+      </ul>
+    </div>
+    
+</div>

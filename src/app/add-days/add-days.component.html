@@ -1,0 +1,45 @@
+<div class="add-days">
+  <h3>Add to or Subtract from a Date</h3>
+  <p>Enter a start date and add or subtract any number of days, months, or years.</p>
+  <form [formGroup]="addDaysForm">
+    <div class="flex-column">
+      <div>
+        <mat-radio-group formControlName="dayType" aria-label="Select an option" class="flex-column">
+          <mat-radio-button value="Calendar">Calendar Days</mat-radio-button>
+          <mat-radio-button value="Business">Business Days</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      
+      <mat-form-field>
+        <input matInput [matDatepicker]="startDatepicker" formControlName="start" placeholder="Start Date">
+        <mat-datepicker-toggle matSuffix [for]="startDatepicker"></mat-datepicker-toggle>
+        <mat-datepicker #startDatepicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Add/Subtract</mat-label>
+        <mat-select formControlName="action">
+          <mat-option *ngFor="let actionOption of actionOptions" [value]="actionOption.value">
+            {{actionOption.label}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="flex-row">
+        <mat-form-field class="narrow" *ngIf="addDaysForm.value.dayType == 'Calendar'">
+          <input matInput type="number" formControlName="years" placeholder="Years" min="0" max="9999">
+        </mat-form-field>
+  
+        <mat-form-field class="narrow" *ngIf="addDaysForm.value.dayType == 'Calendar'">
+          <input matInput type="number" formControlName="weeks" placeholder="Weeks" min="0" max="9999">
+        </mat-form-field>
+  
+        <mat-form-field class="narrow">
+          <input matInput type="number" formControlName="days" placeholder="Days" min="0" max="9999">
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+
+  <h3 class="result" *ngIf="result">Result: {{result}}</h3>
+</div>
