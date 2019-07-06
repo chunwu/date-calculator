@@ -7,12 +7,12 @@ export interface ActionOption {
   label: string;
 }
 
-enum DayType {
+export enum DayType {
   Calendar = "Calendar",
   Business = "Business",
 }
 
-enum ActionType {
+export enum ActionType {
   Add = "Add",
   Subtract = "Subtract",
 }
@@ -54,16 +54,16 @@ export class AddDaysComponent implements OnInit {
   calculate() {
     this.result = "";
 
-    let dayType: string = this.addDaysForm.controls.dayType.value;
-    let start: string = this.addDaysForm.controls.start.value;  // TODO: an integer?
-    let action: string = this.addDaysForm.controls.action.value;
-    let years: number = this.addDaysForm.controls.years.value;
-    let weeks: number = this.addDaysForm.controls.weeks.value;
-    let days: number = this.addDaysForm.controls.days.value;
+    const dayType: string = this.addDaysForm.controls.dayType.value;
+    const start = this.addDaysForm.controls.start.value;   // a momentJs object
+    const action: string = this.addDaysForm.controls.action.value;
+    const years: number = this.addDaysForm.controls.years.value;
+    const weeks: number = this.addDaysForm.controls.weeks.value;
+    const days: number = this.addDaysForm.controls.days.value;
 
     if (start && (years || weeks || days)) {
-      let startDate: Date = new Date(start);
-      let actionType: ActionType = ActionType[action];
+      const actionType: ActionType = ActionType[action];
+      const startDate: Date = start.toDate();
       if (dayType === "Calendar") {
         this.result = this.doCalendarDays(startDate, years, weeks, days, actionType);
       } else if (dayType === "Business") {
