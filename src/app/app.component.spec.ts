@@ -1,6 +1,5 @@
 import { TestBed, async } from '@angular/core/testing';
 
-import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -24,7 +23,6 @@ describe('AppComponent', () => {
         AddDaysComponent, AppComponent, CountDaysComponent, TopBarComponent
       ],
       imports: [
-        BrowserModule, 
         BrowserAnimationsModule,
         FormsModule,
         MatDatepickerModule,
@@ -54,13 +52,13 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'date-calculator'`, () => {
+  it('should have the correct title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('date-calculator');
+    expect(app.title).toEqual('Date Calculator');
   });
 
-  it('should render title in a h1 tag', () => {
+  it('should render the top bar', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
