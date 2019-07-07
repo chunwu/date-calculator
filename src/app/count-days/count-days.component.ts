@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
 import { FormBuilder, FormControl } from '@angular/forms';
-import { Validators } from '@angular/forms';
 
 const DAY_IN_MILLISECONDS = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
 const DAYS_PER_WEEK = 7;
@@ -28,14 +27,14 @@ export class CountDaysComponent implements OnInit {
     });
   }
 
-  calculateDuration() {
-    let start: string = this.durationForm.controls.start.value;
-    let end: string = this.durationForm.controls.end.value;
+  calculate() {
+    let start = this.durationForm.controls.start.value;
+    let end = this.durationForm.controls.end.value;
     let includeStart: boolean = this.durationForm.controls.includeStart.value;
     let includeEnd: boolean = this.durationForm.controls.includeEnd.value;
     if (start && end) {
-      const startDate: Date = new Date(start);
-      const endDate: Date = new Date(end);
+      const startDate: Date = start.toDate();
+      const endDate: Date = end.toDate();
       let days: number = this.daysBetween(startDate, endDate, includeStart, includeEnd);
       let unit: string = (days === 1 ? 'day' : 'days');
       
@@ -99,10 +98,12 @@ export class CountDaysComponent implements OnInit {
   }
 
   addDays(baseDate: Date, days: number): Date {
-    return new Date(baseDate.getTime() + DAY_IN_MILLISECONDS * days);
+    let result : Date = new Date(baseDate.getTime()); // Do not change baseDate
+    result.setDate(baseDate.getDate() + days);
+    return result;
   };
 
   ngOnInit() {
-    this.durationForm.valueChanges.subscribe(() => this.calculateDuration());
+    this.durationForm.valueChanges.subscribe(() => this.calculate());
   }
 }
