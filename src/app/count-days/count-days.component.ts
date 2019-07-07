@@ -12,6 +12,7 @@ const DAYS_PER_WEEK = 7;
 })
 export class CountDaysComponent implements OnInit {
   durationForm;
+  days: number;
   resultDays: string;
   resultWeekdays: string;
   resultWeeksAndDays: string;
@@ -39,12 +40,12 @@ export class CountDaysComponent implements OnInit {
     if (start && end) {
       const startDate: Date = start.toDate();
       const endDate: Date = end.toDate();
-      let days: number = this.daysBetween(startDate, endDate, includeStart, includeEnd);
-      let unit: string = (days === 1 ? 'day' : 'days');
+      this.days = this.daysBetween(startDate, endDate, includeStart, includeEnd);
+      let unit: string = (this.days === 1 ? 'day' : 'days');
       
-      this.resultDays = (days + ' ' + unit);
+      this.resultDays = (this.days + ' ' + unit);
       this.resultWeekdays = this.weekdaysBetween(startDate, endDate, includeStart, includeEnd);
-      this.resultWeeksAndDays = this.toWeeksAndDays(days);
+      this.resultWeeksAndDays = this.toWeeksAndDays(this.days);
     }
   }
 

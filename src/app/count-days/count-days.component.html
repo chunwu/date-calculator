@@ -26,7 +26,7 @@
       <span><b>Alternative time units:</b></span>
       <ul>
         <li>{{resultWeekdays}}</li>
-        <li>{{resultWeeksAndDays}}</li>
+        <li *ngIf="days >= 7">{{resultWeeksAndDays}}</li>
       </ul>
     </div>
     
