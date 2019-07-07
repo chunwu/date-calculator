@@ -64,9 +64,9 @@ export class AddDaysComponent implements OnInit {
     if (start && (years || weeks || days)) {
       const actionType: ActionType = ActionType[action];
       const startDate: Date = start.toDate();
-      if (dayType === "Calendar") {
+      if (dayType === DayType.Calendar) {
         this.result = this.doCalendarDays(startDate, years, weeks, days, actionType);
-      } else if (dayType === "Business") {
+      } else if (dayType === DayType.Business) {
         this.result = this.doWeekdays(startDate, days, actionType);
       }
     }
@@ -98,7 +98,9 @@ export class AddDaysComponent implements OnInit {
   };
 
   addDays(baseDate: Date, days: number): Date {
-      return new Date(baseDate.getTime() + DAY_IN_MILLISECONDS * days);
+    let result : Date = new Date(baseDate.getTime()); // Do not change baseDate
+    result.setDate(baseDate.getDate() + days);
+    return result;
   };
 
   doWeekdays(startDate: Date, weekdays: number, action: ActionType) {
