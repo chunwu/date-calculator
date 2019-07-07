@@ -64,22 +64,22 @@ describe('AddDaysComponent', () => {
     doTestAddOrSubtractCalendarDays(newDate('2019-06-01'), ActionType.Subtract, 1, 2, 3, 'Tue May 15 2018');
   });
 
-  it("should add/subtract business days", function() {
-    doTestAddOrSubtractBusinessDays(newDate('2019-06-01'), ActionType.Add, 1, 'Mon Jun 03 2019');
-    doTestAddOrSubtractBusinessDays(newDate('2019-06-01'), ActionType.Add, 2, 'Tue Jun 04 2019');
-    doTestAddOrSubtractBusinessDays(newDate('2019-06-01'), ActionType.Add, 3, 'Wed Jun 05 2019');
-    doTestAddOrSubtractBusinessDays(newDate('2019-06-01'), ActionType.Add, 4, 'Thu Jun 06 2019');
-    doTestAddOrSubtractBusinessDays(newDate('2019-06-01'), ActionType.Add, 5, 'Fri Jun 07 2019');
-    doTestAddOrSubtractBusinessDays(newDate('2019-06-01'), ActionType.Add, 6, 'Mon Jun 10 2019');
-    doTestAddOrSubtractBusinessDays(newDate('2019-06-01'), ActionType.Add, 7, 'Tue Jun 11 2019');
+  it("should add/subtract weekdays", function() {
+    doTestAddOrSubtractWeekDays(newDate('2019-06-01'), ActionType.Add, 1, 'Mon Jun 03 2019');
+    doTestAddOrSubtractWeekDays(newDate('2019-06-01'), ActionType.Add, 2, 'Tue Jun 04 2019');
+    doTestAddOrSubtractWeekDays(newDate('2019-06-01'), ActionType.Add, 3, 'Wed Jun 05 2019');
+    doTestAddOrSubtractWeekDays(newDate('2019-06-01'), ActionType.Add, 4, 'Thu Jun 06 2019');
+    doTestAddOrSubtractWeekDays(newDate('2019-06-01'), ActionType.Add, 5, 'Fri Jun 07 2019');
+    doTestAddOrSubtractWeekDays(newDate('2019-06-01'), ActionType.Add, 6, 'Mon Jun 10 2019');
+    doTestAddOrSubtractWeekDays(newDate('2019-06-01'), ActionType.Add, 7, 'Tue Jun 11 2019');
 
-    doTestAddOrSubtractBusinessDays(newDate('2019-06-01'), ActionType.Subtract, 1, 'Fri May 31 2019');
-    doTestAddOrSubtractBusinessDays(newDate('2019-06-01'), ActionType.Subtract, 2, 'Thu May 30 2019');
-    doTestAddOrSubtractBusinessDays(newDate('2019-06-01'), ActionType.Subtract, 3, 'Wed May 29 2019');
-    doTestAddOrSubtractBusinessDays(newDate('2019-06-01'), ActionType.Subtract, 4, 'Tue May 28 2019');
-    doTestAddOrSubtractBusinessDays(newDate('2019-06-01'), ActionType.Subtract, 5, 'Mon May 27 2019');
-    doTestAddOrSubtractBusinessDays(newDate('2019-06-01'), ActionType.Subtract, 6, 'Fri May 24 2019');
-    doTestAddOrSubtractBusinessDays(newDate('2019-06-01'), ActionType.Subtract, 7, 'Thu May 23 2019');
+    doTestAddOrSubtractWeekDays(newDate('2019-06-01'), ActionType.Subtract, 1, 'Fri May 31 2019');
+    doTestAddOrSubtractWeekDays(newDate('2019-06-01'), ActionType.Subtract, 2, 'Thu May 30 2019');
+    doTestAddOrSubtractWeekDays(newDate('2019-06-01'), ActionType.Subtract, 3, 'Wed May 29 2019');
+    doTestAddOrSubtractWeekDays(newDate('2019-06-01'), ActionType.Subtract, 4, 'Tue May 28 2019');
+    doTestAddOrSubtractWeekDays(newDate('2019-06-01'), ActionType.Subtract, 5, 'Mon May 27 2019');
+    doTestAddOrSubtractWeekDays(newDate('2019-06-01'), ActionType.Subtract, 6, 'Fri May 24 2019');
+    doTestAddOrSubtractWeekDays(newDate('2019-06-01'), ActionType.Subtract, 7, 'Thu May 23 2019');
   });
 
   function newDate(dateStr: string) {
@@ -103,12 +103,12 @@ describe('AddDaysComponent', () => {
     expect(component.result).toEqual(expectedResult);
   };
 
-  function doTestAddOrSubtractBusinessDays(
+  function doTestAddOrSubtractWeekDays(
       startDate, 
       action: ActionType, 
       days: number, 
       expectedResult) {
-    component.addDaysForm.controls.dayType.value = DayType.Business;
+    component.addDaysForm.controls.dayType.value = DayType.Weekdays;
     component.addDaysForm.controls.start.value = startDate;
     component.addDaysForm.controls.action.value = action;
     component.addDaysForm.controls.days.value = days;

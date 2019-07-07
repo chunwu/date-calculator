@@ -69,6 +69,7 @@ describe('CountDaysComponentTest', () => {
   });
 
   it("should count weekdays", function() {
+    // Across the AUS day light savings  
     doTestCalculateWeekdays('2013-10-04', '2013-10-07', true, false, '1 weekday');
     doTestCalculateWeekdays('2013-10-04', '2013-10-07', false, true, '1 weekday');
     doTestCalculateWeekdays('2013-10-04', '2013-10-07', true, true, '2 weekdays');

@@ -27,6 +27,10 @@ export class CountDaysComponent implements OnInit {
     });
   }
 
+  ngOnInit() {
+    this.durationForm.valueChanges.subscribe(() => this.calculate());
+  }
+
   calculate() {
     let start = this.durationForm.controls.start.value;
     let end = this.durationForm.controls.end.value;
@@ -102,8 +106,4 @@ export class CountDaysComponent implements OnInit {
     result.setDate(baseDate.getDate() + days);
     return result;
   };
-
-  ngOnInit() {
-    this.durationForm.valueChanges.subscribe(() => this.calculate());
-  }
 }

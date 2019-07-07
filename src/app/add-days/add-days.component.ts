@@ -9,7 +9,7 @@ export interface ActionOption {
 
 export enum DayType {
   Calendar = "Calendar",
-  Business = "Business",
+  Weekdays = "Weekdays",
 }
 
 export enum ActionType {
@@ -66,7 +66,7 @@ export class AddDaysComponent implements OnInit {
       const startDate: Date = start.toDate();
       if (dayType === DayType.Calendar) {
         this.result = this.doCalendarDays(startDate, years, weeks, days, actionType);
-      } else if (dayType === DayType.Business) {
+      } else if (dayType === DayType.Weekdays) {
         this.result = this.doWeekdays(startDate, days, actionType);
       }
     }
