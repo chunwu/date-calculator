@@ -1,12 +1,18 @@
-import { TestBed } from '@angular/core/testing';
-
 import { DateService } from './date.service';
 
 describe('DateService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+  let service: DateService;
+
+  beforeEach(() => {
+    service = new DateService();
+  });
 
   it('should be created', () => {
-    const service: DateService = TestBed.get(DateService);
     expect(service).toBeTruthy();
+  });
+
+  it('should add days', () => {
+    expect(service.addDays(new Date(2019, 5, 1), 1)).toEqual(new Date(2019, 5, 2));
+    expect(service.addDays(new Date(2013, 9, 4), 3)).toEqual(new Date(2013, 9, 7));
   });
 });
