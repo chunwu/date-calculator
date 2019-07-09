@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { FormBuilder } from '@angular/forms';
+import { DateService } from '../date.service';
 
 export interface ActionOption {
   value: string;
@@ -36,6 +37,7 @@ export class AddDaysComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
+    private dateService: DateService
   ) {
     this.addDaysForm = this.formBuilder.group({
       dayType: DayType.Calendar,
@@ -85,7 +87,7 @@ export class AddDaysComponent implements OnInit {
         if (weeks) ds -= weeks * DAYS_PER_WEEK;
         if (days) ds -= days;
     }
-    endDate = this.addDays(endDate, ds);
+    endDate = this.dateService.addDays(endDate, ds);
     
     return endDate.toDateString();
   };
@@ -97,45 +99,40 @@ export class AddDaysComponent implements OnInit {
     return endDate;
   };
 
-  addDays(baseDate: Date, days: number): Date {
-    let result : Date = new Date(baseDate.getTime()); // Do not change baseDate
-    result.setDate(baseDate.getDate() + days);
-    return result;
-  };
-
   doWeekdays(startDate: Date, weekdays: number, action: ActionType) {
     if (action == ActionType.Add) return this.addWeekdays(startDate, weekdays);
     if (action == ActionType.Subtract) return this.subtractWeekdays(startDate, weekdays);
   };
 
   addWeekdays(startDate: Date, weekdays: number) {
-    let inclusiveStartWeekday: Date = this.addDays(startDate, 1);
-    if (inclusiveStartWeekday.getDay() == 6) inclusiveStartWeekday = this.addDays(inclusiveStartWeekday, 2);
-    if (inclusiveStartWeekday.getDay() == 0) inclusiveStartWeekday = this.addDays(inclusiveStartWeekday, 1);
+    let inclusiveStartWeekday: Date = this.dateService.addDays(startDate, 1);
+    if (inclusiveStartWeekday.getDay() == 6) inclusiveStartWeekday = this.dateService.addDays(inclusiveStartWeekday, 2);
+    if (inclusiveStartWeekday.getDay() == 0) inclusiveStartWeekday = this.dateService.addDays(inclusiveStartWeekday, 1);
     
     let weeks: number = (weekdays - weekdays % WEEKDAYS_PER_WEEK) / WEEKDAYS_PER_WEEK;
     let remainingDays: number = weekdays % WEEKDAYS_PER_WEEK;
     
-    let afterWeeksWeekday: Date = this.addDays(inclusiveStartWeekday, weeks * DAYS_PER_WEEK); // Still a weekday
+    let afterWeeksWeekday: Date = this.dateService.addDays(inclusiveStartWeekday, weeks * DAYS_PER_WEEK); // Still a weekday
     if (afterWeeksWeekday.getDay() + remainingDays >= 6) remainingDays += 2; // 6 represents Saturday
-    let endDate: Date = this.addDays(afterWeeksWeekday, remainingDays - 1);
-    if (endDate.getDay() == 0) endDate = this.addDays(endDate, -2);
+    let endDate: Date = this.dateService.addDays(afterWeeksWeekday, remainingDays - 1);
+    if (endDate.getDay() == 0) endDate = this.dateService.addDays(endDate, -2);
     
     return endDate.toDateString();
   };
 
   subtractWeekdays(startDate: Date, weekdays: number) {
-    let inclusiveStartWeekday: Date = this.addDays(startDate, -1);
-    if (inclusiveStartWeekday.getDay() == 6) inclusiveStartWeekday = this.addDays(inclusiveStartWeekday, -1);
-    if (inclusiveStartWeekday.getDay() == 0) inclusiveStartWeekday = this.addDays(inclusiveStartWeekday, -2);
+    let inclusiveStartWeekday: Date = this.dateService.addDays(startDate, -1);
+    if (inclusiveStartWeekday.getDay() == 6) inclusiveStartWeekday = this.dateService.addDays(inclusiveStartWeekday, -1);
+    if (inclusiveStartWeekday.getDay() == 6) inclusiveStartWeekday = this.dateService.addDays(inclusiveStartWeekday, -1);
+    if (inclusiveStartWeekday.getDay() == 0) inclusiveStartWeekday = this.dateService.addDays(inclusiveStartWeekday, -2);
     
     let weeks: number = (weekdays - weekdays % WEEKDAYS_PER_WEEK) / WEEKDAYS_PER_WEEK;
     let remainingDays: number = weekdays % WEEKDAYS_PER_WEEK;
     
-    let weeksAgoWeekday: Date = this.addDays(inclusiveStartWeekday, -weeks * DAYS_PER_WEEK); // Still a weekday
+    let weeksAgoWeekday: Date = this.dateService.addDays(inclusiveStartWeekday, -weeks * DAYS_PER_WEEK); // Still a weekday
     if (weeksAgoWeekday.getDay() - remainingDays <= 0) remainingDays += 2; // 0 represents Sunday
-    let endDate: Date = this.addDays(weeksAgoWeekday, -remainingDays + 1);
-    if (endDate.getDay() == 6) endDate = this.addDays(endDate, 2);
+    let endDate: Date = this.dateService.addDays(weeksAgoWeekday, -remainingDays + 1);
+    if (endDate.getDay() == 6) endDate = this.dateService.addDays(endDate, 2);
     
     return endDate.toDateString();
   };

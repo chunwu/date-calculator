@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { FormBuilder, FormControl } from '@angular/forms';
+import { DateService } from '../date.service';
 
 const DAY_IN_MILLISECONDS = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
 const DAYS_PER_WEEK = 7;
@@ -19,6 +20,7 @@ export class CountDaysComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
+    private dateService: DateService
   ) {
     this.durationForm = this.formBuilder.group({
       start: '',
@@ -66,18 +68,18 @@ export class CountDaysComponent implements OnInit {
         return this.weekdaysBetween(secondDate, firstDate, includeSecondDate, includeFirstDate);
     }
     
-    let firstInclusiveWeekDay: Date = (includeFirstDate ? firstDate : this.addDays(firstDate, 1));
+    let firstInclusiveWeekDay: Date = (includeFirstDate ? firstDate : this.dateService.addDays(firstDate, 1));
     if (firstInclusiveWeekDay.getDay() == 6) {
-        firstInclusiveWeekDay = this.addDays(firstInclusiveWeekDay, 2);
+        firstInclusiveWeekDay = this.dateService.addDays(firstInclusiveWeekDay, 2);
     } else if (firstInclusiveWeekDay.getDay() == 0) {
-        firstInclusiveWeekDay = this.addDays(firstInclusiveWeekDay, 1);
+        firstInclusiveWeekDay = this.dateService.addDays(firstInclusiveWeekDay, 1);
     }
     
-    let secondInclusiveWeekDay: Date = (includeSecondDate ? secondDate : this.addDays(secondDate, -1));
+    let secondInclusiveWeekDay: Date = (includeSecondDate ? secondDate : this.dateService.addDays(secondDate, -1));
     if (secondInclusiveWeekDay.getDay() == 6) {
-        secondInclusiveWeekDay = this.addDays(secondInclusiveWeekDay, -1);
+        secondInclusiveWeekDay = this.dateService.addDays(secondInclusiveWeekDay, -1);
     } else if (secondInclusiveWeekDay.getDay() == 0) {
-        secondInclusiveWeekDay = this.addDays(secondInclusiveWeekDay, -2);
+        secondInclusiveWeekDay = this.dateService.addDays(secondInclusiveWeekDay, -2);
     }
     
     let weekdays: number = 0;
@@ -101,10 +103,4 @@ export class CountDaysComponent implements OnInit {
     
     return weeks + ' ' + weekUnit + ' ' + daysInWeek + ' ' + dayUnit;
   }
-
-  addDays(baseDate: Date, days: number): Date {
-    let result : Date = new Date(baseDate.getTime()); // Do not change baseDate
-    result.setDate(baseDate.getDate() + days);
-    return result;
-  };
 }
