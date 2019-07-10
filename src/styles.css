@@ -111,6 +111,7 @@ app-top-bar h1 {
 
 .mat-tab-label-content {
   color: blue;
+  font-family: Roboto,"Helvetica Neue",sans-serif;
 }
 
 .mat-tab-body {
