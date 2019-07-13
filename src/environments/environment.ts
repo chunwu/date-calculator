@@ -3,7 +3,16 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  firebase: {
+    apiKey: "AIzaSyBxD6v6XdySSGclPZ48I6dpWKaHy8NQoZY",
+    authDomain: "date-calculator-8ab88.firebaseapp.com",
+    databaseURL: "https://date-calculator-8ab88.firebaseio.com",
+    projectId: "date-calculator-8ab88",
+    storageBucket: "date-calculator-8ab88.appspot.com",
+    messagingSenderId: "978904126054",
+    appId: "1:978904126054:web:6bb6eaf162517ef8"
+  }
 };
 
 /*

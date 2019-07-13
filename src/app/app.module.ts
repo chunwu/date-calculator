@@ -11,16 +11,23 @@ import { MatSelectModule } from '@angular/material/select';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { environment } from '../environments/environment';
+
 import { AddDaysComponent } from './add-days/add-days.component';
 import { AppComponent } from './app.component';
 import { CountDaysComponent } from './count-days/count-days.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
+import { FeedbackComponent } from './feedback/feedback.component';
 
 @NgModule({
-  declarations: [ AppComponent, CountDaysComponent, TopBarComponent, AddDaysComponent ],
+  declarations: [ AppComponent, CountDaysComponent, TopBarComponent, AddDaysComponent, FeedbackComponent ],
   imports: [
     BrowserModule, 
     BrowserAnimationsModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
     FormsModule,
     MatDatepickerModule,
     MatFormFieldModule,

@@ -1,0 +1,31 @@
+<div>
+    <h3>Feedback</h3>
+    <p>Please send us comments, issues or suggestions using the form below.</p>
+    <form [formGroup]="theForm" (ngSubmit)="onSubmit(theForm.value)">
+      <div class="flex-column">
+          <mat-form-field>
+              <input matInput formControlName="name" placeholder="Name">
+          </mat-form-field>
+
+          <mat-form-field>
+              <input matInput formControlName="email" placeholder="Email">
+          </mat-form-field>
+
+          <mat-form-field>
+              <textarea matInput formControlName="comments" placeholder="Comments"></textarea>
+          </mat-form-field>
+      </div>
+
+      <button class="button" type="submit" [disabled]="!theForm.valid">Submit Feedback</button>
+    </form>
+    
+    <br>
+    <div>
+        All Feedback:
+        <ul *ngFor="let feedback of feedbacks | async">
+            <li>Your Name: {{feedback.UserName}}</li>
+            <li>Email Address: {{feedback.UserEmail}}</li>
+            <li>Comments: {{feedback.Comments}}</li>
+        </ul>
+    </div>
+</div>
