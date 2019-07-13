@@ -89,6 +89,18 @@ label {
   cursor: auto;
 }
 
+.alert-danger {
+  background-color: #f44336; /* Red */
+}
+.alert-success {
+  background-color: #36f456;  
+} 
+.alert > *{
+  color: #b41105;
+  margin-bottom: 5px;
+  border-radius: 2px;
+}
+
 /* Top Bar */
 
 app-top-bar {

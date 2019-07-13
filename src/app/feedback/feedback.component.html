@@ -6,13 +6,23 @@
           <mat-form-field>
               <input matInput formControlName="name" placeholder="Name">
           </mat-form-field>
-
+          
           <mat-form-field>
-              <input matInput formControlName="email" placeholder="Email">
+              <div class="alert" *ngIf="theForm.controls.email.invalid && (theForm.controls.email.dirty || theForm.controls.email.touched)">
+                <div *ngIf="!theForm.controls.email.errors.required">
+                  Email is invalid.
+                </div>  
+              </div>
+              <input matInput formControlName="email" type="email" placeholder="Email" required [email]="true">
           </mat-form-field>
 
           <mat-form-field>
-              <textarea matInput formControlName="comments" placeholder="Comments"></textarea>
+              <div class="alert" *ngIf="theForm.controls.comments.invalid && (theForm.controls.comments.dirty || theForm.controls.comments.touched)">
+                <div *ngIf="theForm.controls.comments.errors.minlength">
+                  Comments must be at least 4 characters long.
+                </div>  
+              </div>
+              <textarea matInput formControlName="comments" placeholder="Comments" required minlength="4"></textarea>
           </mat-form-field>
       </div>
 
