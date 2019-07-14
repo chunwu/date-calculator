@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
 import { FormBuilder, Validators } from '@angular/forms';
-import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
 import { FeedbackService } from '../shared/feedback.service';
@@ -17,8 +16,7 @@ export class FeedbackComponent implements OnInit {
 
   constructor(
       private formBuilder: FormBuilder,
-      private feedbackService: FeedbackService,
-      private db: AngularFirestore) {
+      private feedbackService: FeedbackService) {
     this.theForm = this.formBuilder.group({
       name: '',
       email: ['', Validators.required],

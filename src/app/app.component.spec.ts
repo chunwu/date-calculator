@@ -11,19 +11,23 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { RouterModule } from '@angular/router';
 
+import { CommonServiceStubModule } from '../../testing/common-service-stub/common-service-stub.module'
+
 import { AddDaysComponent } from './add-days/add-days.component';
 import { AppComponent } from './app.component';
 import { CountDaysComponent } from './count-days/count-days.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
+import { FeedbackComponent } from './feedback/feedback.component';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AddDaysComponent, AppComponent, CountDaysComponent, TopBarComponent
+        AddDaysComponent, AppComponent, CountDaysComponent, TopBarComponent, FeedbackComponent
       ],
       imports: [
         BrowserAnimationsModule,
+        CommonServiceStubModule,
         FormsModule,
         MatDatepickerModule,
         MatFormFieldModule,
