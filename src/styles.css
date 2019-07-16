@@ -144,6 +144,12 @@ app-top-bar h1 {
   width: fit-content;
 }
 
+.flex-column-wide {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
 .flex-row {
   display: flex;
   flex-direction: row;

@@ -1,9 +1,9 @@
-<!-- TODO: larger comments box; clear inputs and show Thank you plus submitted text after submit; Upload attachments; Email feedback to user; email feedback to admin; fix the repeated theForm references; -->
+<!-- TODO: clear inputs and show Thank you plus submitted text after submit; Upload attachments; Email feedback to user; email feedback to admin; fix the repeated theForm references; -->
 <div>
     <h3>Feedback</h3>
     <p>Please send us comments, issues or suggestions using the form below.</p>
     <form [formGroup]="theForm" (ngSubmit)="onSubmit(theForm.value)">
-      <div class="flex-column">
+      <div class="flex-column-wide">
           <mat-form-field>
               <input matInput formControlName="name" placeholder="Name">
           </mat-form-field>
@@ -21,9 +21,9 @@
               <div class="alert" *ngIf="theForm.controls.comments.invalid && (theForm.controls.comments.dirty || theForm.controls.comments.touched)">
                 <div *ngIf="theForm.controls.comments.errors.minlength">
                   Comments must be at least 4 characters long.
-                </div>  
+                </div>
               </div>
-              <textarea matInput formControlName="comments" placeholder="Comments" required minlength="4"></textarea>
+              <textarea matInput formControlName="comments" placeholder="Comments" required matTextareaAutosize matAutosizeMinRows=5 matAutosizeMaxRows=15></textarea>
           </mat-form-field>
       </div>
 
