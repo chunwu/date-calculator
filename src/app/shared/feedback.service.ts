@@ -7,10 +7,10 @@ import { AngularFirestore } from '@angular/fire/firestore';
 })
 export class FeedbackService {
 
-  constructor(private db: AngularFirestore) { }
+  constructor(private afs: AngularFirestore) { }
 
   createFeedback(value){
-    return this.db.collection('feedbacks').add({
+    return this.afs.collection('feedbacks').add({
       UserName: value.name,
       UserEmail: value.email,
       Comments: value.comments
@@ -18,6 +18,6 @@ export class FeedbackService {
   }
 
   getAllFeedback() {
-    return this.db.collection('feedbacks').valueChanges();
+    return this.afs.collection('feedbacks').valueChanges();
   }
 }

@@ -13,6 +13,7 @@ import { FeedbackService } from '../shared/feedback.service';
 export class FeedbackComponent implements OnInit {
   theForm;
   feedbacks: Observable<any[]>;
+  submitted: boolean = false;
 
   constructor(
       private formBuilder: FormBuilder,
@@ -22,7 +23,7 @@ export class FeedbackComponent implements OnInit {
       email: ['', Validators.required],
       comments: ['', Validators.required]
     });
-    this.feedbacks = feedbackService.getAllFeedback();
+    // this.feedbacks = feedbackService.getAllFeedback();
   }
 
   ngOnInit() {
@@ -30,9 +31,10 @@ export class FeedbackComponent implements OnInit {
 
   onSubmit(value){
     this.feedbackService.createFeedback(value)
-    .then(
-      res => {
-      }
-    )
+        .then(
+          res => {
+            if (res.id) this.submitted = true;
+          }
+        );
   }
 }

@@ -1,36 +1,39 @@
-<!-- TODO: clear inputs and show Thank you plus submitted text after submit; Upload attachments; Email feedback to user; email feedback to admin; fix the repeated theForm references; -->
+<!-- TODO: look into the security rules; add a Created Date field; show submitted text after submit; load all feedbacks for admin; Upload attachments; Email feedback to user; email feedback to admin; fix the repeated theForm references; -->
 <div>
     <h3>Feedback</h3>
     <p>Please send us comments, issues or suggestions using the form below.</p>
     <form [formGroup]="theForm" (ngSubmit)="onSubmit(theForm.value)">
-      <div class="flex-column-wide">
-          <mat-form-field>
-              <input matInput formControlName="name" placeholder="Name">
-          </mat-form-field>
-          
-          <mat-form-field>
-              <div class="alert" *ngIf="theForm.controls.email.invalid && (theForm.controls.email.dirty || theForm.controls.email.touched)">
-                <div *ngIf="!theForm.controls.email.errors.required">
-                  Email is invalid.
-                </div>  
-              </div>
-              <input matInput formControlName="email" type="email" placeholder="Email" required [email]="true">
-          </mat-form-field>
+      <div class="flex-column-wide" *ngIf="!submitted">
+        <mat-form-field>
+            <input matInput formControlName="name" placeholder="Name">
+        </mat-form-field>
+        
+        <mat-form-field>
+            <div class="alert" *ngIf="theForm.controls.email.invalid && (theForm.controls.email.dirty || theForm.controls.email.touched)">
+              <div *ngIf="!theForm.controls.email.errors.required">
+                Email is invalid.
+              </div>  
+            </div>
+            <input matInput formControlName="email" type="email" placeholder="Email" required [email]="true">
+        </mat-form-field>
 
-          <mat-form-field>
-              <div class="alert" *ngIf="theForm.controls.comments.invalid && (theForm.controls.comments.dirty || theForm.controls.comments.touched)">
-                <div *ngIf="theForm.controls.comments.errors.minlength">
-                  Comments must be at least 4 characters long.
-                </div>
+        <mat-form-field>
+            <div class="alert" *ngIf="theForm.controls.comments.invalid && (theForm.controls.comments.dirty || theForm.controls.comments.touched)">
+              <div *ngIf="theForm.controls.comments.errors.minlength">
+                Comments must be at least 4 characters long.
               </div>
-              <textarea matInput formControlName="comments" placeholder="Comments" required matTextareaAutosize matAutosizeMinRows=5 matAutosizeMaxRows=15></textarea>
-          </mat-form-field>
+            </div>
+            <textarea matInput formControlName="comments" placeholder="Comments" required minlength="4" matTextareaAutosize matAutosizeMinRows=5 matAutosizeMaxRows=15></textarea>
+        </mat-form-field>
+        <button class="button" type="submit" [disabled]="!theForm.valid">Submit Feedback</button>
       </div>
-
-      <button class="button" type="submit" [disabled]="!theForm.valid">Submit Feedback</button>
     </form>
+
+    <div *ngIf="submitted">
+      <b>Submission completed. Thank your for your feedback!</b>
+    </div>
     
-    <br>
+    <!-- <br>
     <div>
         All Feedback:
         <ul *ngFor="let feedback of feedbacks | async">
@@ -38,5 +41,5 @@
             <li>Email Address: {{feedback.UserEmail}}</li>
             <li>Comments: {{feedback.Comments}}</li>
         </ul>
-    </div>
+    </div> -->
 </div>
