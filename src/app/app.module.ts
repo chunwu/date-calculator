@@ -20,9 +20,11 @@ import { AppComponent } from './app.component';
 import { CountDaysComponent } from './count-days/count-days.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
 import { FeedbackComponent } from './feedback/feedback.component';
+import { LoginComponent } from './login/login.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
-  declarations: [ AppComponent, CountDaysComponent, TopBarComponent, AddDaysComponent, FeedbackComponent ],
+  declarations: [ AppComponent, CountDaysComponent, TopBarComponent, AddDaysComponent, FeedbackComponent, LoginComponent, HomeComponent ],
   imports: [
     BrowserModule, 
     BrowserAnimationsModule,
@@ -39,7 +41,8 @@ import { FeedbackComponent } from './feedback/feedback.component';
     MatNativeDateModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
-      { path: '', component: AppComponent },
+      { path: '', component: HomeComponent },
+      { path: 'login', component: LoginComponent },
     ])
   ],
   providers: [

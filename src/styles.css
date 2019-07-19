@@ -16,7 +16,7 @@ body {
 }
 
 router-outlet + *  {
-  padding: 0 16px;
+  padding: 0;
 }
 
 /* Text */
@@ -117,6 +117,11 @@ app-top-bar {
 app-top-bar h1 {
   color: white;
   margin: 0;
+}
+
+app-top-bar a {
+  float: right;
+  color: white;
 }
 
 /* Tabs */
