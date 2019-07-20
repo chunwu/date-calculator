@@ -23,7 +23,7 @@ export class FeedbackComponent implements OnInit {
       email: ['', Validators.required],
       comments: ['', Validators.required]
     });
-    // this.feedbacks = feedbackService.getAllFeedback();
+    this.feedbacks = feedbackService.getAllFeedback();
   }
 
   ngOnInit() {
