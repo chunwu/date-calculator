@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { FormBuilder } from '@angular/forms';
-import { DateService } from '../date.service';
+import { DateService } from '../shared/date.service';
 
 export interface ActionOption {
   value: string;

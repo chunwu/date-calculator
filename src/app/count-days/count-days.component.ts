@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { FormBuilder, FormControl } from '@angular/forms';
-import { DateService } from '../date.service';
+import { DateService } from '../shared/date.service';
 
 const DAY_IN_MILLISECONDS = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
 const DAYS_PER_WEEK = 7;
