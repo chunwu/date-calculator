@@ -2,8 +2,8 @@
 <div>
     <h3>Feedback</h3>
     <p>Please send us comments, issues or suggestions using the form below.</p>
-    <form [formGroup]="theForm" (ngSubmit)="onSubmit(theForm.value)">
-      <div class="flex-column-wide" *ngIf="!submitted">
+    <form [formGroup]="theForm" (ngSubmit)="onSubmit(theForm.value)" *ngIf="!submitted">
+      <div class="flex-column-wide">
         <mat-form-field>
             <input matInput formControlName="name" placeholder="Name">
         </mat-form-field>
@@ -25,8 +25,8 @@
             </div>
             <textarea matInput formControlName="comments" placeholder="Comments" required minlength="4" matTextareaAutosize matAutosizeMinRows=5 matAutosizeMaxRows=15></textarea>
         </mat-form-field>
-        <button class="button" type="submit" [disabled]="!theForm.valid">Submit Feedback</button>
       </div>
+      <button class="button" type="submit" [disabled]="!theForm.valid">Submit Feedback</button>
     </form>
 
     <div *ngIf="submitted">
