@@ -23,15 +23,24 @@ export class AuthService {
   }
 
   login() {
-    // this.afAuth.auth.signInWithEmailAndPassword('ie.wuchun@gmail.com', 'Tes1t123');
-    let self: AuthService = this;
-    this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider()).then(function(result) {
-      console.log('result: ' + result);
-      self.isLoggedIn = true;
-      self.user = result.user;
-      // self.router.navigateByUrl('https://google.com');
-      self.getLoggedInName.emit(result.user.displayName);
-      self.zone.run(() => self.router.navigate(['/']));
-    });
+    return this.doGoogleLogin();
+  }
+
+  doGoogleLogin() {
+    return new Promise<any>((resolve, reject) => {
+      let provider = new auth.GoogleAuthProvider();
+      this.afAuth.auth.signInWithPopup(provider).then(result => {
+        console.log('result: ' + result);
+        this.isLoggedIn = true;
+        this.user = result.user;
+        this.getLoggedInName.emit(result.user.displayName);
+        this.zone.run(() => this.router.navigate(['/']));
+        
+        resolve(result);
+      }, err => {
+        console.log(err);
+        reject(err);
+      });
+    })
   }
 }
