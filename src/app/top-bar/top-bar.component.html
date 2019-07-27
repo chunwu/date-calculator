@@ -2,4 +2,4 @@
   <h1>Date Calculator</h1>
 </a>
 <a routerLink="/login" routerLinkActive="active" *ngIf="!isLoggedIn">Login</a>
-<a routerLink="/" routerLinkActive="active" *ngIf="isLoggedIn">Welcome {{userName}}</a>
+<span *ngIf="isLoggedIn">Welcome {{userName}},&nbsp;<a (click)="auth.logout()" routerLinkActive="active">Sign Out</a></span>

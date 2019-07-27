@@ -120,6 +120,10 @@ app-top-bar h1 {
 }
 
 app-top-bar a {
+  color: white;
+}
+
+app-top-bar span {
   float: right;
   color: white;
 }

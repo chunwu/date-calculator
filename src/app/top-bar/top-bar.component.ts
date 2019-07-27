@@ -9,14 +9,20 @@ import { AuthService } from '../shared/auth.service';
 export class TopBarComponent implements OnInit {
   isLoggedIn: boolean;
   userName: string;
+  
   constructor(private auth: AuthService) {
-    auth.getLoggedInName.subscribe(name => this.changeName(name));
-    this.isLoggedIn = auth.isLoggedIn;
+    auth.getLoggedInName.subscribe(name => this.loggedIn(name));
+    auth.loggedOut.subscribe(() => this.loggedOut());
   }
 
-  private changeName(name: string): void {
+  private loggedIn(name: string): void {
     this.isLoggedIn = true;
     this.userName = name;
+  }
+
+  private loggedOut() {
+    this.isLoggedIn = false;
+    this.userName = null;
   }
 
   ngOnInit() {

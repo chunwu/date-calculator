@@ -12,6 +12,7 @@ import { Output, EventEmitter } from '@angular/core';
 })
 export class AuthService {
   @Output() getLoggedInName: EventEmitter<any> = new EventEmitter();
+  @Output() loggedOut: EventEmitter<any> = new EventEmitter();
 
   isLoggedIn: boolean;
   user: firebase.User;
@@ -39,8 +40,18 @@ export class AuthService {
         resolve(result);
       }, err => {
         console.log(err);
+        window.alert(err);
         reject(err);
       });
     })
+  }
+
+  logout() {
+    return this.afAuth.auth.signOut().then(() => {
+      this.isLoggedIn = false;
+      this.user = null;
+      this.loggedOut.emit();
+      this.router.navigate(['/']);
+    });
   }
 }
