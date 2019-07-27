@@ -34,7 +34,7 @@
     </div>
     
     <br>
-    <div>
+    <div *ngIf="authService.isLoggedIn">
         All Feedback:
         <ul *ngFor="let feedback of feedbacks | async">
             <li>Your Name: {{feedback.UserName}}</li>

@@ -4,6 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 
 import { FeedbackService } from '../shared/feedback.service';
+import { AuthService } from '../shared/auth.service';
 
 @Component({
   selector: 'app-feedback',
@@ -17,7 +18,8 @@ export class FeedbackComponent implements OnInit {
 
   constructor(
       private formBuilder: FormBuilder,
-      private feedbackService: FeedbackService) {
+      private feedbackService: FeedbackService,
+      private authService: AuthService) {
     this.theForm = this.formBuilder.group({
       name: '',
       email: ['', Validators.required],
