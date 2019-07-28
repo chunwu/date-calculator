@@ -25,18 +25,15 @@ export class FeedbackComponent implements OnInit {
       email: ['', Validators.required],
       comments: ['', Validators.required]
     });
-    this.feedbacks = feedbackService.getAllFeedback();
+    this.feedbacks = feedbackService.getMyFeedbackItems();
   }
 
   ngOnInit() {
   }
 
   onSubmit(value){
-    this.feedbackService.createFeedback(value)
-        .then(
-          res => {
-            if (res.id) this.submitted = true;
-          }
-        );
+    this.feedbackService.createFeedbackItem(value).then(res => {
+      if (res.id) this.submitted = true;
+    });
   }
 }
