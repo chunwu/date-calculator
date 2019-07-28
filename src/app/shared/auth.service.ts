@@ -1,11 +1,23 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
 import { auth } from 'firebase/app';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { NgZone } from '@angular/core';
 
 import { Output, EventEmitter } from '@angular/core';
+
+import { Observable, of } from 'rxjs';
+import { switchMap} from 'rxjs/operators';
+
+interface User {
+  uid: string;
+  email: string;
+  photoURL?: string;
+  displayName?: string;
+  favoriteColor?: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -14,13 +26,22 @@ export class AuthService {
   @Output() getLoggedInName: EventEmitter<any> = new EventEmitter();
   @Output() loggedOut: EventEmitter<any> = new EventEmitter();
 
-  isLoggedIn: boolean;
-  user: firebase.User;
+  user: Observable<User>;
 
   constructor(public afAuth: AngularFireAuth,
-      private router: Router,
-      private zone: NgZone) {
-    this.isLoggedIn = false;
+              private afs: AngularFirestore,
+              private router: Router,
+              private zone: NgZone) {
+    //// Get auth data, then get firestore user document || null
+    this.user = this.afAuth.authState.pipe(
+      switchMap(user => {
+        if (user) {
+          return this.afs.doc<User>(`users/${user.uid}`).valueChanges()
+        } else {
+          return of(null)
+        }
+      })
+    );
   }
 
   login() {
@@ -32,8 +53,8 @@ export class AuthService {
       let provider = new auth.GoogleAuthProvider();
       this.afAuth.auth.signInWithPopup(provider).then(result => {
         console.log('result: ' + result);
-        this.isLoggedIn = true;
-        this.user = result.user;
+        this.updateUserData(result.user);
+
         this.getLoggedInName.emit(result.user.displayName);
         this.zone.run(() => this.router.navigate(['/']));
         
@@ -46,10 +67,21 @@ export class AuthService {
     })
   }
 
+  private updateUserData(user) {
+    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
+
+    const data: User = {
+      uid: user.uid,
+      email: user.email,
+      displayName: user.displayName,
+      photoURL: user.photoURL
+    };
+
+    return userRef.set(data, { merge: true })
+  }
+
   logout() {
     return this.afAuth.auth.signOut().then(() => {
-      this.isLoggedIn = false;
-      this.user = null;
       this.loggedOut.emit();
       this.router.navigate(['/']);
     });

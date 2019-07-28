@@ -1,5 +1,15 @@
 <a [routerLink]="['/']">
   <h1>Date Calculator</h1>
 </a>
-<a routerLink="/login" routerLinkActive="active" *ngIf="!isLoggedIn">Login</a>
-<span *ngIf="isLoggedIn">Welcome {{userName}},&nbsp;<a (click)="auth.logout()" routerLinkActive="active">Sign Out</a></span>
+
+<div *ngIf="auth.user | async; then authenticated else guest">
+  <!-- template will replace this div -->
+</div>
+
+<ng-template #guest>
+  <a routerLink="/login" routerLinkActive="active">Login</a>
+</ng-template>
+
+<ng-template #authenticated>
+  <span>Welcome {{displayName}},&nbsp;<a (click)="auth.logout()" routerLinkActive="active">Sign Out</a></span>
+</ng-template>

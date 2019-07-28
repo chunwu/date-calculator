@@ -33,12 +33,13 @@
     </div>
     
     <br>
-    <div *ngIf="authService.isLoggedIn">
+    <div *ngIf="authService.user | async">
         All Feedback:
         <ul *ngFor="let feedback of feedbacks | async">
             <li>Your Name: {{feedback.UserName}}</li>
             <li>Email Address: {{feedback.UserEmail}}</li>
             <li>Comments: {{feedback.Comments}}</li>
+            <li>Created Date: {{feedback.CreatedDate}}</li>
         </ul>
     </div>
 </div>

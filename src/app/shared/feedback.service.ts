@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { AngularFirestore } from '@angular/fire/firestore';
+import { firestore } from 'firebase';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,8 @@ export class FeedbackService {
     return this.afs.collection('feedbacks').add({
       UserName: value.name,
       UserEmail: value.email,
-      Comments: value.comments
+      Comments: value.comments,
+      CreatedDate: firestore.Timestamp.fromDate(new Date())
     });
   }
 
