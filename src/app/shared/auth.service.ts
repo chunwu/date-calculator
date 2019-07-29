@@ -6,8 +6,6 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firest
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { NgZone } from '@angular/core';
 
-import { Output, EventEmitter } from '@angular/core';
-
 import { Observable, of } from 'rxjs';
 import { switchMap} from 'rxjs/operators';
 
@@ -23,9 +21,6 @@ interface User {
   providedIn: 'root'
 })
 export class AuthService {
-  @Output() getLoggedInName: EventEmitter<any> = new EventEmitter();
-  @Output() loggedOut: EventEmitter<any> = new EventEmitter();
-
   user: Observable<User>;
 
   constructor(public afAuth: AngularFireAuth,
@@ -55,7 +50,6 @@ export class AuthService {
         console.log('result: ' + result);
         this.updateUserData(result.user);
 
-        this.getLoggedInName.emit(result.user.displayName);
         this.zone.run(() => this.router.navigate(['/']));
         
         resolve(result);
@@ -82,7 +76,6 @@ export class AuthService {
 
   logout() {
     return this.afAuth.auth.signOut().then(() => {
-      this.loggedOut.emit();
       this.router.navigate(['/']);
     });
   }

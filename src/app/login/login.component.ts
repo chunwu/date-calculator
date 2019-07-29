@@ -19,11 +19,9 @@ export class LoginComponent implements OnInit {
 
   
   login() {
-    // this.afAuth.auth.signInWithEmailAndPassword('ie.wuchun@gmail.com', 'Tes1t123');
     this.auth.login();
   }
   logout() {
-    // this.afAuth.auth.signOut();
   }
 
 }
