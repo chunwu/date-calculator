@@ -11,5 +11,5 @@
 </ng-template>
 
 <ng-template #authenticated>
-  <span>Welcome {{displayName}},&nbsp;<a (click)="auth.logout()" routerLinkActive="active">Sign Out</a></span>
+  <span *ngIf="auth.user | async as user">Welcome {{user.displayName}},&nbsp;<a (click)="auth.logout()" routerLinkActive="active">Sign Out</a></span>
 </ng-template>
