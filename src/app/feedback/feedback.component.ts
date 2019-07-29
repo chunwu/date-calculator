@@ -20,15 +20,24 @@ export class FeedbackComponent implements OnInit {
       private formBuilder: FormBuilder,
       private feedbackService: FeedbackService,
       private authService: AuthService) {
+  }
+
+  ngOnInit() {
     this.theForm = this.formBuilder.group({
       name: '',
       email: ['', Validators.required],
       comments: ['', Validators.required]
     });
-    this.feedbacks = feedbackService.getMyFeedbackItems();
-  }
 
-  ngOnInit() {
+    // Pre-populate the name and email if user is signed in
+    this.authService.user.subscribe(user => {
+      if (user) {
+        this.theForm.controls.name.setValue(user.displayName);
+        this.theForm.controls.email.setValue(user.email);
+      }
+    });
+
+    this.feedbacks = this.feedbackService.getMyFeedbackItems();
   }
 
   onSubmit(value){
