@@ -8,7 +8,7 @@ export class Feedback {
   userEmail: string;
   userName?: string;
   comments: string;
-  createdDate: firestore.Timestamp
+  createdDate: Date;
 }
 
 @Injectable({
@@ -30,7 +30,7 @@ export class FeedbackService {
       userName: value.name,
       userEmail: value.email,
       comments: value.comments,
-      createdDate: firestore.Timestamp.fromDate(new Date())
+      createdDate: new Date() //firestore.Timestamp.fromDate(new Date())
     };
 
     if (this.userId) {

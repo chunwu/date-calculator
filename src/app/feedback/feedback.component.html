@@ -39,7 +39,7 @@
             <li>Your Name: {{feedback.userName}}</li>
             <li>Email Address: {{feedback.userEmail}}</li>
             <li>Comments: {{feedback.comments}}</li>
-            <li>Created Date: {{feedback.createdDate}}</li>
+            <li>Created Date: {{feedback.createdDate.seconds * 1000 | date}}</li>
         </ul>
     </div>
 </div>
