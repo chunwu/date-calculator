@@ -34,6 +34,9 @@ export class FeedbackComponent implements OnInit {
       if (user) {
         this.theForm.controls.name.setValue(user.displayName);
         this.theForm.controls.email.setValue(user.email);
+        if (user.admin) {
+          this.feedbacks = this.feedbackService.getAllFeedbackItems();
+        }
       }
     });
 

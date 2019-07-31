@@ -15,6 +15,7 @@ interface User {
   photoURL?: string;
   displayName?: string;
   favoriteColor?: string;
+  admin?: boolean;
 }
 
 @Injectable({
@@ -47,7 +48,6 @@ export class AuthService {
     return new Promise<any>((resolve, reject) => {
       let provider = new auth.GoogleAuthProvider();
       this.afAuth.auth.signInWithPopup(provider).then(result => {
-        console.log('result: ' + result);
         this.updateUserData(result.user);
 
         this.zone.run(() => this.router.navigate(['/']));
@@ -76,7 +76,9 @@ export class AuthService {
 
   logout() {
     return this.afAuth.auth.signOut().then(() => {
-      this.router.navigate(['/']);
+      this.router.navigate(['/login']);
+    }).catch(err => {
+      console.log(err);
     });
   }
 }
