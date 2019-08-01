@@ -1,3 +1,11 @@
 form {
   max-width: 400px;
 }
+
+.mat-header-cell, .mat-cell {
+  padding: 0 10px;
+}
+
+th, td {
+  text-align: left;
+}

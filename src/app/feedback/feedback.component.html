@@ -1,45 +1,65 @@
 <div>
-    <h3>Feedback</h3>
-    <p>Please send us comments, issues or suggestions using the form below.</p>
-    <form [formGroup]="theForm" (ngSubmit)="onSubmit(theForm.value)" *ngIf="!submitted">
-      <div class="flex-column-wide">
-        <mat-form-field>
-            <input matInput formControlName="name" placeholder="Name">
-        </mat-form-field>
-        
-        <mat-form-field>
-            <div class="alert" *ngIf="theForm.controls.email.invalid && (theForm.controls.email.dirty || theForm.controls.email.touched)">
-              <div *ngIf="!theForm.controls.email.errors.required">
-                Email is invalid.
-              </div>  
-            </div>
-            <input matInput formControlName="email" type="email" placeholder="Email" required [email]="true">
-        </mat-form-field>
-
-        <mat-form-field>
-            <div class="alert" *ngIf="theForm.controls.comments.invalid && (theForm.controls.comments.dirty || theForm.controls.comments.touched)">
-              <div *ngIf="theForm.controls.comments.errors.minlength">
-                Comments must be at least 4 characters long.
+    <div *ngIf="true">
+      <h3>Feedback</h3>
+      <p>Please send us comments, issues or suggestions using the form below.</p>
+      <form [formGroup]="theForm" (ngSubmit)="onSubmit(theForm.value)" *ngIf="!submitted">
+        <div class="flex-column-wide">
+          <mat-form-field>
+              <input matInput formControlName="name" placeholder="Name">
+          </mat-form-field>
+          
+          <mat-form-field>
+              <div class="alert" *ngIf="theForm.controls.email.invalid && (theForm.controls.email.dirty || theForm.controls.email.touched)">
+                <div *ngIf="!theForm.controls.email.errors.required">
+                  Email is invalid.
+                </div>  
               </div>
-            </div>
-            <textarea matInput formControlName="comments" placeholder="Comments" required minlength="4" matTextareaAutosize matAutosizeMinRows=5 matAutosizeMaxRows=15></textarea>
-        </mat-form-field>
-      </div>
-      <button class="button" type="submit" [disabled]="!theForm.valid">Submit Feedback</button>
-    </form>
+              <input matInput formControlName="email" type="email" placeholder="Email" required [email]="true">
+          </mat-form-field>
 
-    <div *ngIf="submitted">
-      <b>Submission completed. Thank your for your feedback!</b>
+          <mat-form-field>
+              <div class="alert" *ngIf="theForm.controls.comments.invalid && (theForm.controls.comments.dirty || theForm.controls.comments.touched)">
+                <div *ngIf="theForm.controls.comments.errors.minlength">
+                  Comments must be at least 4 characters long.
+                </div>
+              </div>
+              <textarea matInput formControlName="comments" placeholder="Comments" required minlength="4" matTextareaAutosize matAutosizeMinRows=5 matAutosizeMaxRows=15></textarea>
+          </mat-form-field>
+        </div>
+        <button class="button" type="submit" [disabled]="!theForm.valid">Submit Feedback</button>
+      </form>
+
+      <div *ngIf="submitted">
+        <b>Submission completed. Thank your for your feedback!</b>
+      </div>
     </div>
-    
+
     <br>
     <div *ngIf="authService.user | async">
-        All Feedback:
-        <ul *ngFor="let feedback of feedbacks | async">
-            <li>Your Name: {{feedback.userName}}</li>
-            <li>Email Address: {{feedback.userEmail}}</li>
-            <li>Comments: {{feedback.comments}}</li>
-            <li>Created Date: {{feedback.createdDate.seconds * 1000 | date}}</li>
-        </ul>
+        <h3>Feedback Items History:</h3>
+        <table mat-table [dataSource]="feedbackSource" class="mat-elevation-z8">
+          <ng-container  matColumnDef="userName">
+            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <td mat-cell *matCellDef="let item">{{item.userName}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="userEmail">
+            <th mat-header-cell *matHeaderCellDef>Email</th>
+            <td mat-cell *matCellDef="let item">{{item.userEmail}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="comments">
+            <th mat-header-cell *matHeaderCellDef>Comments</th>
+            <td mat-cell *matCellDef="let item">{{item.comments}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="createdDate">
+            <th mat-header-cell *matHeaderCellDef>Created Date</th>
+            <td mat-cell *matCellDef="let item">{{item.createdDate.seconds * 1000 | date: "medium"}}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
     </div>
 </div>

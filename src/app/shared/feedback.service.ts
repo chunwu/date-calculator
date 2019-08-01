@@ -3,10 +3,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 
-import { Query } from '@firebase/firestore-types'
-import { from } from 'rxjs';
-
-export class Feedback {
+export class FeedbackItem {
   userEmail: string;
   userName?: string;
   comments: string;
@@ -28,29 +25,22 @@ export class FeedbackService {
     });
   }
 
-  createFeedbackItem(value){
-    const data: Feedback = {
-      userName: value.name,
-      userEmail: value.email,
-      comments: value.comments,
+  createFeedbackItem(formValue){
+    const item: FeedbackItem = {
+      userName: formValue.name,
+      userEmail: formValue.email,
+      comments: formValue.comments,
       createdDate: new Date(),
     };
-    if (this.userId) data.userId = this.userId;
+    if (this.userId) item.userId = this.userId;
 
-    if (this.userId) this.afs.collection(`users/${this.userId}/feedbackItems`).add(data);
-    return this.afs.collection(`feedbackItems`).add(data);
+    if (this.userId) this.afs.collection(`users/${this.userId}/feedbackItems`).add(item);
+    return this.afs.collection(`feedbackItems`).add(item);
   }
 
   getMyFeedbackItems() {
     if (!this.userId) return;
     return this.afs.collection(`users/${this.userId}/feedbackItems`).valueChanges();
-    
-    // return this.afs.collection('/feedbackItems', ref => {
-    //   ref.where('userId', '==', this.userId);
-    // }).valueChanges(); //where('userId', '==', this.userId);
-    
-    // let itemsPromise = this.afs.collection(`feedbackItems`).ref.where('', '==', this.userId).get();
-    // return from(itemsPromise);
   }
 
   getAllFeedbackItems() {

@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatCheckboxModule, MatInputModule, MatTabsModule } from '@angular/material';
+import { MatCheckboxModule, MatInputModule, MatTableModule, MatTabsModule } from '@angular/material';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
@@ -39,6 +39,7 @@ import { HomeComponent } from './home/home.component';
     MatRadioModule,
     MatSelectModule,
     MatInputModule,
+    MatTableModule,
     MatTabsModule,
     MatNativeDateModule,
     ReactiveFormsModule,

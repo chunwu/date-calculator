@@ -13,7 +13,12 @@ import { AuthService } from '../shared/auth.service';
 })
 export class FeedbackComponent implements OnInit {
   theForm;
-  feedbacks: Observable<any[]>;
+
+  // for the Feedback Items table
+  displayedColumns: string[] = ['userName', 'userEmail', 'comments', 'createdDate'];
+  feedbackSource;
+  feedbackItems: Observable<any[]>;
+  
   submitted: boolean = false;
 
   constructor(
@@ -29,22 +34,26 @@ export class FeedbackComponent implements OnInit {
       comments: ['', Validators.required]
     });
 
-    // Pre-populate the name and email if user is signed in
     this.authService.user.subscribe(user => {
       if (user) {
+        // Pre-populate the name and email if user is signed in
         this.theForm.controls.name.setValue(user.displayName);
         this.theForm.controls.email.setValue(user.email);
+
         if (user.admin) {
-          this.feedbacks = this.feedbackService.getAllFeedbackItems();
+          this.feedbackItems = this.feedbackService.getAllFeedbackItems();
+        } else {
+          this.feedbackItems = this.feedbackService.getMyFeedbackItems();
         }
+        this.feedbackItems.subscribe((items) => {    
+          this.feedbackSource = items;
+        });
       }
     });
-
-    this.feedbacks = this.feedbackService.getMyFeedbackItems();
   }
 
-  onSubmit(value){
-    this.feedbackService.createFeedbackItem(value).then(res => {
+  onSubmit(formValue){
+    this.feedbackService.createFeedbackItem(formValue).then(res => {
       if (res.id) this.submitted = true;
     });
   }
