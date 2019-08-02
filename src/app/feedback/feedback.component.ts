@@ -1,10 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 
 import { FeedbackService } from '../shared/feedback.service';
 import { AuthService } from '../shared/auth.service';
+
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+
+import { Timestamp } from '@firebase/firestore-types';
+
+import { FeedbackItem } from '../shared/feedback.service';
 
 @Component({
   selector: 'app-feedback',
@@ -16,10 +23,12 @@ export class FeedbackComponent implements OnInit {
 
   // for the Feedback Items table
   displayedColumns: string[] = ['userName', 'userEmail', 'comments', 'createdDate'];
-  feedbackSource;
   feedbackItems: Observable<any[]>;
+  feedbackSource = new MatTableDataSource<FeedbackItem>();
   
   submitted: boolean = false;
+
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   constructor(
       private formBuilder: FormBuilder,
@@ -34,6 +43,13 @@ export class FeedbackComponent implements OnInit {
       comments: ['', Validators.required]
     });
 
+    this.feedbackSource.sortingDataAccessor = (item, property): string | number => {
+      switch (property) {
+        case 'createdDate': return item.createdDate.getTime();
+        default: return item[property];
+      }
+    };
+
     this.authService.user.subscribe(user => {
       if (user) {
         // Pre-populate the name and email if user is signed in
@@ -46,7 +62,8 @@ export class FeedbackComponent implements OnInit {
           this.feedbackItems = this.feedbackService.getMyFeedbackItems();
         }
         this.feedbackItems.subscribe((items) => {    
-          this.feedbackSource = items;
+          this.feedbackSource.data = items;
+          this.feedbackSource.sort = this.sort;
         });
       }
     });

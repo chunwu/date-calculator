@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSortModule } from '@angular/material/sort';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
@@ -40,6 +41,7 @@ import { HomeComponent } from './home/home.component';
     MatSelectModule,
     MatInputModule,
     MatTableModule,
+    MatSortModule,
     MatTabsModule,
     MatNativeDateModule,
     ReactiveFormsModule,

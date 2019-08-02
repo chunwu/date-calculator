@@ -35,27 +35,27 @@
     </div>
 
     <br>
-    <div *ngIf="authService.user | async">
+    <div [hidden]="!authService.user | async">
         <h3>Feedback Items History:</h3>
-        <table mat-table [dataSource]="feedbackSource" class="mat-elevation-z8">
+        <table mat-table [dataSource]="feedbackSource" matSort class="mat-elevation-z8">
           <ng-container  matColumnDef="userName">
-            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
             <td mat-cell *matCellDef="let item">{{item.userName}}</td>
           </ng-container>
 
           <ng-container matColumnDef="userEmail">
-            <th mat-header-cell *matHeaderCellDef>Email</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
             <td mat-cell *matCellDef="let item">{{item.userEmail}}</td>
           </ng-container>
 
           <ng-container matColumnDef="comments">
-            <th mat-header-cell *matHeaderCellDef>Comments</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Comments</th>
             <td mat-cell *matCellDef="let item">{{item.comments}}</td>
           </ng-container>
 
           <ng-container matColumnDef="createdDate">
-            <th mat-header-cell *matHeaderCellDef>Created Date</th>
-            <td mat-cell *matCellDef="let item">{{item.createdDate.seconds * 1000 | date: "medium"}}</td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Created Date</th>
+            <td mat-cell *matCellDef="let item">{{item.createdDate?.seconds * 1000 | date: "medium"}}</td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
