@@ -1,5 +1,5 @@
 <div>
-    <div *ngIf="true">
+    <div [hidden]="auth.user?.admin">
       <h3>Feedback</h3>
       <p>Please send us comments, issues or suggestions using the form below.</p>
       <form [formGroup]="theForm" (ngSubmit)="onSubmit(theForm.value)" *ngIf="!submitted">
@@ -35,7 +35,7 @@
     </div>
 
     <br>
-    <div [hidden]="!(authService.user | async)">
+    <div [hidden]="!auth.user">
         <h3>Feedback Items History:</h3>
         <table mat-table [dataSource]="feedbackSource" matSort class="mat-elevation-z8">
           <ng-container  matColumnDef="userName">

@@ -36,7 +36,7 @@ export class FeedbackComponent implements OnInit {
   constructor(
       private formBuilder: FormBuilder,
       private feedbackService: FeedbackService,
-      private authService: AuthService) {
+      private auth: AuthService) {
   }
 
   ngOnInit() {
@@ -46,7 +46,7 @@ export class FeedbackComponent implements OnInit {
       comments: ['', Validators.required]
     });
 
-    this.authService.user.subscribe(user => {
+    this.auth.observableUser.subscribe(user => {
       if (user) {
         // Pre-populate the name and email if user is signed in
         this.theForm.controls.name.setValue(user.displayName);

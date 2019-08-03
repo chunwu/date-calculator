@@ -10,7 +10,7 @@ import { Observable, of } from 'rxjs';
 import { switchMap} from 'rxjs/operators';
 
 // Custom user
-interface User {
+export interface User {
   uid: string;
   email: string;
   photoURL?: string;
@@ -23,14 +23,15 @@ interface User {
   providedIn: 'root'
 })
 export class AuthService {
-  user: Observable<User>;
+  user: User;
+  observableUser: Observable<User>;
 
   constructor(public afAuth: AngularFireAuth,
               private afs: AngularFirestore,
               private router: Router,
               private zone: NgZone) {
     //// Get auth data, then get firestore user document || null
-    this.user = this.afAuth.authState.pipe(
+    this.observableUser = this.afAuth.authState.pipe(
       switchMap(user => {
         if (user) {
           return this.afs.doc<User>(`users/${user.uid}`).valueChanges()
@@ -39,6 +40,8 @@ export class AuthService {
         }
       })
     );
+    
+    this.observableUser.subscribe(user => this.user = user);
   }
 
   login() {

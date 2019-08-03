@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { AngularFirestore } from '@angular/fire/firestore';
 
-import { AuthService } from '../shared/auth.service';
+import { AuthService, User } from '../shared/auth.service';
 
 export class FeedbackItem {
   userEmail: string;
@@ -16,36 +16,30 @@ export class FeedbackItem {
   providedIn: 'root'
 })
 export class FeedbackService {
-  userId: string;
-
   constructor(
-              private afs: AngularFirestore,
-              private auth: AuthService) {
-    this.auth.user.subscribe(user => {
-      if (user) this.userId = user.uid;
-    });
+      private afs: AngularFirestore,
+      private auth: AuthService) {
   }
 
-  createFeedbackItem(formValue){
+  createFeedbackItem(formValue) {
     const item: FeedbackItem = {
       userName: formValue.name,
       userEmail: formValue.email,
       comments: formValue.comments,
       createdDate: new Date(),
     };
-    if (this.userId) item.userId = this.userId;
+    if (this.auth.user) item.userId = this.auth.user.uid;
 
-    if (this.userId) this.afs.collection(`users/${this.userId}/feedbackItems`).add(item);
+    if (this.auth.user) this.afs.collection(`users/${this.auth.user.uid}/feedbackItems`).add(item);
     return this.afs.collection(`feedbackItems`).add(item);
   }
 
   getMyFeedbackItems() {
-    if (!this.userId) return;
-    return this.afs.collection<FeedbackItem>(`users/${this.userId}/feedbackItems`).valueChanges();
+    if (!this.auth.user) return;
+    return this.afs.collection<FeedbackItem>(`users/${this.auth.user.uid}/feedbackItems`).valueChanges();
   }
 
   getAllFeedbackItems() {
-    if (!this.userId) return;
     return this.afs.collection<FeedbackItem>(`feedbackItems`).valueChanges();
   }
 

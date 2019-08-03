@@ -2,7 +2,7 @@
   <h1>Date Calculator</h1>
 </a>
 
-<div *ngIf="auth.user | async; then authenticated else guest">
+<div *ngIf="auth.user; then authenticated else guest">
   <!-- template will replace this div -->
 </div>
 
@@ -11,5 +11,5 @@
 </ng-template>
 
 <ng-template #authenticated>
-  <span *ngIf="auth.user | async as user">Welcome {{user.displayName}},&nbsp;<a (click)="auth.logout()" routerLinkActive="active">Sign Out</a></span>
+  <span *ngIf="auth.user as user">Welcome {{user.displayName}},&nbsp;<a (click)="auth.logout()" routerLinkActive="active">Sign Out</a></span>
 </ng-template>
