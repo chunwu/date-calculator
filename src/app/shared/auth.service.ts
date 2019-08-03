@@ -24,14 +24,14 @@ export interface User {
 })
 export class AuthService {
   user: User;
-  observableUser: Observable<User>;
+  user$: Observable<User>;
 
   constructor(public afAuth: AngularFireAuth,
               private afs: AngularFirestore,
               private router: Router,
               private zone: NgZone) {
     //// Get auth data, then get firestore user document || null
-    this.observableUser = this.afAuth.authState.pipe(
+    this.user$ = this.afAuth.authState.pipe(
       switchMap(user => {
         if (user) {
           return this.afs.doc<User>(`users/${user.uid}`).valueChanges()
@@ -41,7 +41,7 @@ export class AuthService {
       })
     );
     
-    this.observableUser.subscribe(user => this.user = user);
+    this.user$.subscribe(user => this.user = user);
   }
 
   login() {

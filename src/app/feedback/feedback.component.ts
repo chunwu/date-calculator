@@ -46,7 +46,7 @@ export class FeedbackComponent implements OnInit {
       comments: ['', Validators.required]
     });
 
-    this.auth.observableUser.subscribe(user => {
+    this.auth.user$.subscribe(user => {
       if (user) {
         // Pre-populate the name and email if user is signed in
         this.theForm.controls.name.setValue(user.displayName);
