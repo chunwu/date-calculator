@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 
-import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
+
+import { AuthService } from '../shared/auth.service';
 
 export class FeedbackItem {
   userEmail: string;
@@ -19,9 +20,9 @@ export class FeedbackService {
 
   constructor(
               private afs: AngularFirestore,
-              private afAuth: AngularFireAuth) {
-    this.afAuth.authState.subscribe(user => {
-      if (user) this.userId = user.uid
+              private auth: AuthService) {
+    this.auth.user.subscribe(user => {
+      if (user) this.userId = user.uid;
     });
   }
 

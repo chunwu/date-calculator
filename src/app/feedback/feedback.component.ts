@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 
 import { FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -9,7 +9,8 @@ import { AuthService } from '../shared/auth.service';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
-import { Timestamp } from '@firebase/firestore-types';
+import { filter, startWith, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 import { FeedbackItem } from '../shared/feedback.service';
 
@@ -30,6 +31,8 @@ export class FeedbackComponent implements OnInit {
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
+  private ngUnsubscribe = new Subject();
+
   constructor(
       private formBuilder: FormBuilder,
       private feedbackService: FeedbackService,
@@ -43,13 +46,6 @@ export class FeedbackComponent implements OnInit {
       comments: ['', Validators.required]
     });
 
-    this.feedbackSource.sortingDataAccessor = (item, property): string | number => {
-      switch (property) {
-        case 'createdDate': return item.createdDate.getTime();
-        default: return item[property];
-      }
-    };
-
     this.authService.user.subscribe(user => {
       if (user) {
         // Pre-populate the name and email if user is signed in
@@ -61,13 +57,19 @@ export class FeedbackComponent implements OnInit {
         } else {
           this.feedbackItems = this.feedbackService.getMyFeedbackItems();
         }
-        this.feedbackItems.subscribe((items) => {    
+
+        this.feedbackItems.pipe(takeUntil(this.ngUnsubscribe)).subscribe((items) => {    
           this.feedbackSource.data = items;
           this.feedbackSource.sort = this.sort;
         });
       }
     });
   }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+}
 
   onSubmit(formValue){
     this.feedbackService.createFeedbackItem(formValue).then(res => {

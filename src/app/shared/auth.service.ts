@@ -9,6 +9,7 @@ import { NgZone } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { switchMap} from 'rxjs/operators';
 
+// Custom user
 interface User {
   uid: string;
   email: string;

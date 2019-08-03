@@ -35,7 +35,7 @@
     </div>
 
     <br>
-    <div [hidden]="!authService.user | async">
+    <div [hidden]="!(authService.user | async)">
         <h3>Feedback Items History:</h3>
         <table mat-table [dataSource]="feedbackSource" matSort class="mat-elevation-z8">
           <ng-container  matColumnDef="userName">
