@@ -77,7 +77,8 @@ export class AuthService {
 
   logout() {
     return this.afAuth.auth.signOut().then(() => {
-      this.router.navigate(['/login']);
+      // this.router.navigate(['/login']);
+      window.location.replace('/')
     }).catch(err => {
       console.log(err);
     });

@@ -41,12 +41,12 @@ export class FeedbackService {
 
   getMyFeedbackItems() {
     if (!this.userId) return;
-    return this.afs.collection(`users/${this.userId}/feedbackItems`).valueChanges();
+    return this.afs.collection<FeedbackItem>(`users/${this.userId}/feedbackItems`).valueChanges();
   }
 
   getAllFeedbackItems() {
     if (!this.userId) return;
-    return this.afs.collection(`feedbackItems`).valueChanges();
+    return this.afs.collection<FeedbackItem>(`feedbackItems`).valueChanges();
   }
 
 }

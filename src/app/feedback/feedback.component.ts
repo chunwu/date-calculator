@@ -24,7 +24,7 @@ export class FeedbackComponent implements OnInit {
 
   // for the Feedback Items table
   displayedColumns: string[] = ['userName', 'userEmail', 'comments', 'createdDate'];
-  feedbackItems: Observable<any[]>;
+  feedbackItems: Observable<FeedbackItem[]>;
   feedbackSource = new MatTableDataSource<FeedbackItem>();
   
   submitted: boolean = false;
