@@ -1,5 +1,5 @@
 <div>
-    <div [hidden]="auth.user?.admin">
+    <div [hidden]="auth.isAdmin">
       <h3>Feedback</h3>
       <p>Please send us comments, issues or suggestions using the form below.</p>
       <form [formGroup]="theForm" (ngSubmit)="onSubmit(theForm.value)" *ngIf="!submitted">

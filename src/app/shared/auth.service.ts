@@ -16,7 +16,6 @@ export interface User {
   photoURL?: string;
   displayName?: string;
   favoriteColor?: string;
-  admin?: boolean;
 }
 
 @Injectable({
@@ -25,6 +24,8 @@ export interface User {
 export class AuthService {
   user: User;
   user$: Observable<User>;
+  isAdmin: boolean;
+  profile$: Observable<any>;
 
   constructor(public afAuth: AngularFireAuth,
               private afs: AngularFirestore,
@@ -34,14 +35,24 @@ export class AuthService {
     this.user$ = this.afAuth.authState.pipe(
       switchMap(user => {
         if (user) {
-          return this.afs.doc<User>(`users/${user.uid}`).valueChanges()
+          return this.afs.doc<User>(`users/${user.uid}`).valueChanges();
         } else {
-          return of(null)
+          return of(null);
         }
       })
     );
-    
     this.user$.subscribe(user => this.user = user);
+
+    this.profile$ = this.afAuth.authState.pipe(
+      switchMap(user => {
+        if (user) {
+          return this.afs.doc(`users/${user.uid}/private/profile`).valueChanges();
+        } else {
+          return of(null);
+        }
+      })
+    );
+    this.profile$.subscribe(profile => this.isAdmin = (profile && profile.admin === true));
   }
 
   login() {

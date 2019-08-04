@@ -52,15 +52,18 @@ export class FeedbackComponent implements OnInit {
         this.theForm.controls.name.setValue(user.displayName);
         this.theForm.controls.email.setValue(user.email);
 
-        if (user.admin) {
-          this.feedbackItems = this.feedbackService.getAllFeedbackItems();
-        } else {
-          this.feedbackItems = this.feedbackService.getMyFeedbackItems();
-        }
-
-        this.feedbackItems.pipe(takeUntil(this.ngUnsubscribe)).subscribe((items) => {    
-          this.feedbackSource.data = items;
-          this.feedbackSource.sort = this.sort;
+        this.auth.profile$.subscribe(profile => {
+          let isAdmin : boolean = (profile && profile.admin === true);
+          if (isAdmin) {
+            this.feedbackItems = this.feedbackService.getAllFeedbackItems();
+          } else {
+            this.feedbackItems = this.feedbackService.getMyFeedbackItems();
+          }
+    
+          this.feedbackItems.pipe(takeUntil(this.ngUnsubscribe)).subscribe((items) => {    
+            this.feedbackSource.data = items;
+            this.feedbackSource.sort = this.sort;
+          });
         });
       }
     });
