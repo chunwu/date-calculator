@@ -51,20 +51,24 @@ export class FeedbackComponent implements OnInit {
         // Pre-populate the name and email if user is signed in
         this.theForm.controls.name.setValue(user.displayName);
         this.theForm.controls.email.setValue(user.email);
+      }
+    });
 
-        this.auth.profile$.subscribe(profile => {
-          let isAdmin : boolean = (profile && profile.admin === true);
-          if (isAdmin) {
-            this.feedbackItems = this.feedbackService.getAllFeedbackItems();
-          } else {
-            this.feedbackItems = this.feedbackService.getMyFeedbackItems();
-          }
-    
-          this.feedbackItems.pipe(takeUntil(this.ngUnsubscribe)).subscribe((items) => {    
-            this.feedbackSource.data = items;
-            this.feedbackSource.sort = this.sort;
-          });
+    this.auth.profile$.subscribe(profile => {
+      if (this.auth.user) {
+        let isAdmin : boolean = (profile && profile.admin === true);
+        if (isAdmin) {
+          this.feedbackItems = this.feedbackService.getAllFeedbackItems();
+        } else {
+          this.feedbackItems = this.feedbackService.getMyFeedbackItems();
+        }
+
+        this.feedbackItems.pipe(takeUntil(this.ngUnsubscribe)).subscribe((items) => {    
+          this.feedbackSource.data = items;
+          this.feedbackSource.sort = this.sort;
         });
+      } else {
+        // unsubscribe
       }
     });
   }

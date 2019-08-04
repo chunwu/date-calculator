@@ -22,16 +22,18 @@ export interface User {
   providedIn: 'root'
 })
 export class AuthService {
-  user: User;
   user$: Observable<User>;
-  isAdmin: boolean;
+  user: User;
+  
   profile$: Observable<any>;
+  isAdmin: boolean;
+  isAdmin$: Observable<boolean>;
 
   constructor(public afAuth: AngularFireAuth,
               private afs: AngularFirestore,
               private router: Router,
               private zone: NgZone) {
-    //// Get auth data, then get firestore user document || null
+    // Get auth data, then get firestore user document || null
     this.user$ = this.afAuth.authState.pipe(
       switchMap(user => {
         if (user) {
@@ -53,6 +55,12 @@ export class AuthService {
       })
     );
     this.profile$.subscribe(profile => this.isAdmin = (profile && profile.admin === true));
+
+    this.isAdmin$ = this.profile$.pipe(
+      switchMap(profile => {
+        return of(profile && profile.admin === true);
+      })
+    );
   }
 
   login() {
