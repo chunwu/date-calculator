@@ -55,8 +55,8 @@ export class FeedbackComponent implements OnInit {
     });
 
     this.auth.profile$.subscribe(profile => {
-      if (this.auth.user) {
-        if (profile && profile.admin === true) {
+      if (profile) {
+        if (profile.admin === true) {
           this.feedbackItems = this.feedbackService.getAllFeedbackItems();
         } else {
           this.feedbackItems = this.feedbackService.getMyFeedbackItems();
