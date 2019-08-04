@@ -10,7 +10,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { filter, startWith, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 
 import { FeedbackItem } from '../shared/feedback.service';
 
@@ -24,8 +24,9 @@ export class FeedbackComponent implements OnInit {
 
   // for the Feedback Items table
   displayedColumns: string[] = ['userName', 'userEmail', 'comments', 'createdDate'];
-  feedbackItems: Observable<FeedbackItem[]>;
   feedbackSource = new MatTableDataSource<FeedbackItem>();
+  private feedbackItems: Observable<FeedbackItem[]>;
+  private feedbackSub: Subscription;
   
   submitted: boolean = false;
 
@@ -62,12 +63,13 @@ export class FeedbackComponent implements OnInit {
           this.feedbackItems = this.feedbackService.getMyFeedbackItems();
         }
 
-        this.feedbackItems.pipe(takeUntil(this.ngUnsubscribe)).subscribe((items) => {    
+        this.feedbackSub = this.feedbackItems.pipe(takeUntil(this.ngUnsubscribe)).subscribe((items) => {    
           this.feedbackSource.data = items;
           this.feedbackSource.sort = this.sort;
         });
       } else {
-        // unsubscribe
+        // No longer need to subscribe to the feedbackItems collection
+        if (this.feedbackSub) this.feedbackSub.unsubscribe();
       }
     });
   }
