@@ -25,9 +25,8 @@ export class AuthService {
   user$: Observable<User>;
   user: User;
   
+  profile$: Observable<any>;
   isAdmin: boolean;
-  isAdmin$: Observable<boolean>;
-  private profile$: Observable<any>;
 
   constructor(public afAuth: AngularFireAuth,
               private afs: AngularFirestore,
@@ -55,12 +54,6 @@ export class AuthService {
       })
     );
     this.profile$.subscribe(profile => this.isAdmin = (profile && profile.admin === true));
-
-    this.isAdmin$ = this.profile$.pipe(
-      switchMap(profile => {
-        return of(profile && profile.admin === true);
-      })
-    );
   }
 
   login() {
