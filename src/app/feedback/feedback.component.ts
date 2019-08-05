@@ -62,15 +62,22 @@ export class FeedbackComponent implements OnInit {
         } else {
           this.feedbackItems = this.feedbackService.getMyFeedbackItems();
         }
-
-        this.feedbackSub = this.feedbackItems.pipe(takeUntil(this.ngUnsubscribe)).subscribe((items) => {    
-          this.feedbackSource.data = items;
-          this.feedbackSource.sort = this.sort;
-        });
+        this.subscribeFeedbackItems(this.feedbackItems);
       } else {
-        // No longer need to subscribe to the feedbackItems collection
-        if (this.feedbackSub) this.feedbackSub.unsubscribe();
+        if (this.auth.user) {
+          this.feedbackItems = this.feedbackService.getMyFeedbackItems();
+          this.subscribeFeedbackItems(this.feedbackItems);
+        } else {
+          if (this.feedbackSub) this.feedbackSub.unsubscribe();
+        }
       }
+    });
+  }
+
+  private subscribeFeedbackItems(feedbackItems: Observable<FeedbackItem[]>) {
+    this.feedbackSub = feedbackItems.pipe(takeUntil(this.ngUnsubscribe)).subscribe((items) => {    
+      this.feedbackSource.data = items;
+      this.feedbackSource.sort = this.sort;
     });
   }
 
