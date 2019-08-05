@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material';
 import { RouterModule } from '@angular/router';
 
 import { CommonServiceStubModule } from '../../../testing/common-service-stub/common-service-stub.module'
@@ -38,6 +39,7 @@ describe('HomeComponent', () => {
         MatSelectModule,
         MatInputModule,
         MatTabsModule,
+        MatTableModule,
         MatNativeDateModule,
         ReactiveFormsModule,
         RouterModule.forRoot([

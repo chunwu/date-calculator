@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
+import { CommonServiceStubModule } from '../../testing/common-service-stub/common-service-stub.module'
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -12,6 +13,7 @@ describe('AppComponent', () => {
         AppComponent, TopBarComponent
       ],
       imports: [
+        CommonServiceStubModule,
         RouterModule.forRoot([
           { path: '', component: AppComponent },
         ])
